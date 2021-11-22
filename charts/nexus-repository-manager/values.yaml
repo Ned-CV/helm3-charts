@@ -94,13 +94,15 @@ deployment:
   additionalVolumes:
   additionalVolumeMounts:
 
-
 ingress:
   enabled: false
   annotations: {kubernetes.io/ingress.class: nginx}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  
   hostPath: /
+  pathType: Prefix
+
   hostRepo: repo.demo
   tls: []
     # - secretName: nexus-local-tls
@@ -153,9 +155,9 @@ persistence:
 tolerations: []
 
 # # Enable configmap and add data in configmap	
-config:	
-  enabled: false	
-  mountPath: /sonatype-nexus-conf	
+config:
+  enabled: false
+  mountPath: /sonatype-nexus-conf
   data: []
 
 # # To use an additional secret, set enable to true and add data
