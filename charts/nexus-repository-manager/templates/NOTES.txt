@@ -2,7 +2,9 @@
 {{- if $.Values.ingress.enabled }}
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $.Values.ingress.hostRepo }}
   {{- if .Values.nexus.docker.enabled }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $.Values.ingress.hostDocker }}
+  {{- range $index, $registry := $.Values.nexus.docker.registries }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $registry.host }}
+  {{- end }}
   {{- end }}
 {{- else if contains "NodePort" $.Values.service.serviceType }}
   export NODE_PORT=$(kubectl get --namespace {{ $.Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "nexus.fullname" . }})
